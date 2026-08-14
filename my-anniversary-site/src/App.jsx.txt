@@ -1,0 +1,90 @@
+import React, { useRef } from 'react';
+import Hero from './components/Hero';
+import DaysCounter from './components/DaysCounter';
+import InteractiveNote from './components/InteractiveNote';
+import MemoryCard from './components/MemoryCard';
+import './App.css';
+
+export default function App() {
+  const galleryRef = useRef(null);
+
+  // Baguhin ang date dito base sa anniversary date niyo (YYYY-MM-DDTHH:mm:ss)
+  const anniversaryDate = '2025-08-14T00:00:00';
+
+  // Path ng music file sa public folder: public/music/song.mp3
+  const bgMusicPath = './music/song.mp3';
+
+  const memories = [
+    {
+      id: 1,
+      image: './images/memory1.jpg',
+      date: 'Chapter 1',
+      title: 'Where It All Started',
+      description: 'Our unforgettable first date. I knew right then you were special.',
+    },
+    {
+      id: 2,
+      image: './images/memory2.jpg',
+      date: 'Chapter 2',
+      title: 'Our Little Adventures',
+      description: 'Late night food runs, endless laughter, and unplanned road trips.',
+    },
+    {
+      id: 3,
+      image: './images/memory3.jpg',
+      date: 'Chapter 3',
+      title: 'Simple Everyday Joy',
+      description: 'Even quiet afternoons spent together feel extraordinary.',
+    },
+    {
+      id: 4,
+      image: './images/memory4.jpg',
+      date: 'Chapter 4',
+      title: 'Milestones & Memories',
+      description: 'Celebrating life side-by-side. Ready for infinite chapters ahead.',
+    },
+  ];
+
+  const scrollToGallery = () => {
+    galleryRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  return (
+    <div className="app-container">
+      {/* Hero Header */}
+      <Hero onExploreClick={scrollToGallery} />
+
+      {/* Real-time Counter */}
+      <div className="container negative-margin">
+        <DaysCounter startDate={anniversaryDate} />
+      </div>
+
+      {/* Interactive Envelope with Auto Music Play */}
+      <InteractiveNote audioSrc={bgMusicPath} />
+
+      {/* Memories Gallery */}
+      <section className="gallery-section" ref={galleryRef}>
+        <div className="container">
+          <h2>Our Highlight Reel</h2>
+          <p className="sub-heading">Click the heart icon on your favorite moments!</p>
+
+          <div className="gallery-grid">
+            {memories.map((memory) => (
+              <MemoryCard
+                key={memory.id}
+                image={memory.image}
+                date={memory.date}
+                title={memory.title}
+                description={memory.description}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>Forever & Always ❤️ | Crafted with love</p>
+      </footer>
+    </div>
+  );
+}
